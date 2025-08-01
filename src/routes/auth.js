@@ -4,8 +4,12 @@ import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import db from '../lib/dbConnect.js';
 import { Router } from 'express';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const router = Router();
+
+const API_URL = process.env.API_URL
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -26,7 +30,7 @@ const generateVerificationToken = () => {
 };
 
 const sendVerificationEmail = async (email, token) => {
-    const verificationUrl = `http://localhost:3000/api/auth/verify-email?token=${token}`;
+    const verificationUrl = `${API_URL}/api/auth/verify-email?token=${token}`;
     
     const mailOptions = {
         from: process.env.EMAIL_USER,
