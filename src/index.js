@@ -5,7 +5,6 @@ import authRoute from './routes/auth.js';
 import cvReaderRoute from './routes/cv_reader.js';
 import cvEnhancerRoute from './routes/cv_enchancer.js';
 import SearchRoute from './routes/search.js'
-import db from './lib/dbConnect.js';
 dotenv.config();
 
 
@@ -25,21 +24,8 @@ app.use('/api/cv_enhancer', cvEnhancerRoute);
 app.use('/api/search', SearchRoute);
 
 
-async function startServer() {
-  try {
-    await db.getConnection().then(conn => {
-      conn.release(); 
-      console.log('✅ MySQL connected successfully.');
-    });
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error('❌ Failed to connect to MySQL:', error.message);
-    process.exit(1); 
-  }
-}
-startServer();
+});
 
